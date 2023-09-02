@@ -4,6 +4,7 @@ const { authRoutes } = require('./routes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const cookieParser = require('cookie-parser');
+const verifyJwt = require('./middlewares/verifyJwt');
 
 
 app.use(express.json());
@@ -19,6 +20,11 @@ app.get('/', (req,res) => {
 })
 
 app.use('/api/v1/users', authRoutes);
+
+app.use(verifyJwt);
+
+
+
 app.use(errorHandler);
 
 app.listen(PORT, () => {

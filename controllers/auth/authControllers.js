@@ -1,5 +1,5 @@
 const {
-    postUserModel, loginModel
+    postUserModel, loginModel, setRefreshToken
 } = require('../../models/auth/authModels');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
@@ -89,7 +89,8 @@ const loginController = asyncHandler(async (req, res) => {
     )
     
     res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: true });
-
+    await setRefreshToken(email, refreshToken);
+    
     return res.status(200).json(
         {
             status: 200,

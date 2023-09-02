@@ -34,7 +34,23 @@ const loginModel = asyncHandler(async(email) => {
     return response;
 })
 
+const setRefreshToken = asyncHandler(async(email, refresh_token) => {
+    const response = await prisma.user.update(
+        {
+            where : {
+                email
+            },
+            data : {
+                refresh_token
+            }
+        }
+    ) 
+    await prisma.$disconnect();
+    return response;
+})
+
 module.exports = {
     postUserModel,
-    loginModel
+    loginModel,
+    setRefreshToken
 }
